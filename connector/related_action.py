@@ -72,4 +72,11 @@ def unwrap_binding(session, job, id_pos=2, binder_class=Binder):
             'res_model': model,
             'res_id': record_id,
         })
+    model = session.pool[action['res_model']]
+    if hasattr(model, 'get_view_for_job_related_action'):
+        action['view_id'] = model.get_view_for_job_related_action(
+            session.cr,
+            session.uid,
+            action['res_id'],
+            context=session.context)
     return action
