@@ -240,7 +240,7 @@ class OpenERPJobStorage(JobStorage):
                 'retry': job_.retry,
                 'max_retries': job_.max_retries,
                 'exc_info': job_.exc_info,
-                'user_id': job_.user_id or self.session.uid,
+                'user_id': SUPERUSER_ID,
                 'company_id': job_.company_id,
                 'result': unicode(job_.result) if job_.result else False,
                 'date_enqueued': False,
@@ -286,7 +286,7 @@ class OpenERPJobStorage(JobStorage):
 
         if self.exists(job_.uuid):
             self.job_model.write(self.session.cr,
-                                 self.session.uid,
+                                 SUPERUSER_ID,
                                  self.openerp_id(job_),
                                  vals,
                                  self.session.context)
