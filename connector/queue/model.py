@@ -184,23 +184,24 @@ class QueueJob(orm.Model):
         self._change_job_state(cr, uid, ids, PENDING, context=context)
         return True
 
-    def write(self, cr, uid, ids, vals, context=None):
-        res = super(QueueJob, self).write(cr, uid, ids, vals, context=context)
-        if vals.get('state') == 'failed':
-            if not hasattr(ids, '__iter__'):
-                ids = [ids]
-            # subscribe the users now to avoid to subscribe them
-            # at every job creation
-            self._subscribe_users(cr, uid, ids, context=context)
-            for job_id in ids:
-                msg = self._message_failed_job(cr, uid, job_id,
-                                               context=context)
-                if msg:
-                    self.message_post(cr, uid, job_id, body=msg,
-                                      subtype='connector.mt_job_failed',
-                                      context=context)
-        return res
-
+# Perf issue !!!
+#    def write(self, cr, uid, ids, vals, context=None):
+#        res = super(QueueJob, self).write(cr, uid, ids, vals, context=context)
+#        if vals.get('state') == 'failed':
+#            if not hasattr(ids, '__iter__'):
+#                ids = [ids]
+#            # subscribe the users now to avoid to subscribe them
+#            # at every job creation
+#            self._subscribe_users(cr, uid, ids, context=context)
+#            for job_id in ids:
+#                msg = self._message_failed_job(cr, uid, job_id,
+#                                               context=context)
+#                if msg:
+#                    self.message_post(cr, uid, job_id, body=msg,
+#                                      subtype='connector.mt_job_failed',
+#                                      context=context)
+#        return res
+#
     def _subscribe_users(self, cr, uid, ids, context=None):
         """ Subscribe all users having the 'Connector Manager' group """
         group_ref = self.pool.get('ir.model.data').get_object_reference(
