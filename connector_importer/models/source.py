@@ -44,7 +44,7 @@ class ImportSource(models.AbstractModel):
         for i, chunk in enumerate(gen_chunks(lines_sorted,
                                   chunksize=self.chunk_size)):
             # get out of chunk iterator
-            yield list(lines)
+            yield list(chunk)
 
     def _get_lines(self):
         raise NotImplementedError()

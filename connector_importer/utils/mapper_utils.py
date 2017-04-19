@@ -182,7 +182,7 @@ def backend_to_rel(field,
         search_value = record[field]
 
         if search_value and value_handler:
-            search_value = value_handler(record, search_value)
+            search_value = value_handler(self, record, search_value)
 
         # handle defaults if no search value here
         if not search_value and default_search_value:
@@ -208,12 +208,11 @@ def backend_to_rel(field,
         search_args = [(modifier.search_field,
                         modifier.search_operator,
                         search_value)]
-        with self.session.change_context(active_test=False):
-            value = rel_model.search(search_args)
+        value = rel_model.with_context(active_test=False).search(search_args)
 
         # create if missing
         if not value and create_missing and create_missing_handler:
-            value = create_missing_handler(rel_model, record)
+            value = create_missing_handler(self, rel_model, record)
 
         # handle the final value based on col type
         if value:
