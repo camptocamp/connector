@@ -65,7 +65,7 @@ class ComponentBuilder(models.AbstractModel):
         self.env.cr.execute(
             "SELECT name "
             "FROM ir_module_module "
-            "WHERE state IN ('installed', 'to upgrade', 'to update')"
+            "WHERE state IN ('installed', 'to upgrade', 'to install')"
 
         )
         module_list = [name for (name,) in self.env.cr.fetchall()
