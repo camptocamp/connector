@@ -54,10 +54,3 @@ class ConnectorTransactionCase(TransactionComponentRegistryCase):
                 # ... asserts below
 
     """
-
-    def setUp(self):
-        super(ConnectorTransactionCase, self).setUp()
-        # it builds the 'final component' for every component of the
-        # 'component' addonand push them in the component registry
-        self.comp_registry.load_components('component_event')
-        self.comp_registry.load_components('connector')

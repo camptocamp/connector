@@ -58,15 +58,16 @@ class ComponentRegistryCase(unittest2.TestCase):
 
         # it will be our temporary component registry for our test session
         self.comp_registry = ComponentRegistry()
+
+        # it builds the 'final component' for every component of the
+        # 'component' addon and push them in the component registry
+        self.comp_registry.load_components('component')
+
         # Fake that we are ready to work with the registry
         # normally, it is set to True and the end of the build
         # of the components. Here, we'll add components later in
         # the components registry, but we don't mind for the tests.
         self.comp_registry.ready = True
-
-        # it builds the 'final component' for every component of the
-        # 'component' addon and push them in the component registry
-        self.comp_registry.load_components('component')
 
     def tearDown(self):
         super(ComponentRegistryCase, self).tearDown()
@@ -91,6 +92,9 @@ class TransactionComponentRegistryCase(common.TransactionCase,
         common.TransactionCase.setUp(self)
         ComponentRegistryCase.setUp(self)
         self.collection = self.env['collection.base']
+
+        # build the components of every installed addons
+        self.env['component.builder'].build_registry(self.comp_registry)
 
     def teardown(self):
         common.TransactionCase.tearDown(self)
