@@ -454,6 +454,17 @@ class MetaComponent(type):
             super(MetaComponent, self).__init__(name, bases, attrs)
             return
 
+        # If components are declared in tests, exclude them from the
+        # "components of the addon" list. If not, when we use the
+        # "load_components" method, all the test components would be loaded.
+        # This should never be an issue when running the app normally, as the
+        # Python tests should never be executed. But this is an issue when a
+        # test creates a test components for the purpose of the test, then a
+        # second tests uses the "load_components" to load all the addons of the
+        # module: it will load the component of the previous test.
+        if 'tests' in self.__module__.split('.'):
+            return
+
         if not hasattr(self, '_module'):
             self._module = _get_addon_name(self.__module__)
 
@@ -826,6 +837,9 @@ class AbstractComponent(object, metaclass=MetaComponent):
         ComponentClass.__bases__ = tuple(bases)
 
         ComponentClass._complete_component_build()
+
+        if name.startswith('test'):
+            import pdb; pdb.set_trace()
 
         registry[name] = ComponentClass
 
