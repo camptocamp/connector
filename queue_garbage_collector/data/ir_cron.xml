@@ -8,7 +8,7 @@
       <field name="interval_type">minutes</field>
       <field name="numbercall">-1</field>
       <field name="model">connector.queue.garbage.collector</field>
-      <field name="function">set_cleanup_job</field>
+      <field name="function">requeue_stuck_jobs</field>
       <field name="args">()</field>
     </record>
 
