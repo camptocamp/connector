@@ -229,10 +229,7 @@ class QueueJob(models.Model):
         return True
 
     @api.model
-    def _get_stuck_jobs_domain(self):
-        now = fields.datetime.now()
-        queue_dl = now - timedelta(minutes=in_queue_delta)
-        started_dl = now - timedelta(minutes=started_delta)
+    def _get_stuck_jobs_domain(self, queue_dl, started_dl):
         return ['|',
                 '&',
                 ('date_enqueued', '<=', fields.Datetime.to_string(queue_dl)),
@@ -244,7 +241,13 @@ class QueueJob(models.Model):
     @api.model
     def _get_stuck_jobs_to_requeue(self, in_queue_delta, started_delta):
         job_model = self.env['queue.job']
-        stuck_jobs = job_model.search(self._get_stuck_jobs_domain())
+        now = fields.datetime.now()
+        queue_dl = now - timedelta(minutes=in_queue_delta)
+        started_dl = now - timedelta(minutes=started_delta)
+        stuck_jobs = job_model.search(self._get_stuck_jobs_domain(
+            queue_dl,
+            started_dl,
+        ))
         return stuck_jobs
 
 
