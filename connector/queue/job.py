@@ -271,18 +271,18 @@ class OpenERPJobStorage(JobStorage):
             vals['worker_id'] = False
         
         fmt = DEFAULT_SERVER_DATETIME_FORMAT
-        date_created = job.date_created.strftime(fmt)
-        vals.update({'uuid': job.uuid,
-                     'name': job.description,
-                     'func_string': job.func_string,
+        date_created = job_.date_created.strftime(fmt)
+        vals.update({'uuid': job_.uuid,
+                     'name': job_.description,
+                     'func_string': job_.func_string,
                      'date_created': date_created,
-                     'model_name': (job.model_name if job.model_name
+                     'model_name': (job_.model_name if job_.model_name
                                     else False),
                      })
 
-        vals['func'] = dumps((job.func_name,
-                              job.args,
-                              job.kwargs))
+        vals['func'] = dumps((job_.func_name,
+                              job_.args,
+                              job_.kwargs))
 
         if self.exists(job_.uuid):
             self.job_model.write(self.session.cr,
