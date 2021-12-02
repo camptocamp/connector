@@ -55,7 +55,7 @@ class Synchronizer(AbstractComponent):
     def mapper(self):
         """Return an instance of ``Mapper`` for the synchronization.
 
-        The instanciation is delayed because some synchronisations do
+        The instantiations is delayed because some synchronizations do
         not need such an unit and the unit may not exist.
 
         It looks for a Component with ``_usage`` being equal to
@@ -71,7 +71,7 @@ class Synchronizer(AbstractComponent):
     def binder(self):
         """Return an instance of ``Binder`` for the synchronization.
 
-        The instanciation is delayed because some synchronisations do
+        The instantiations is delayed because some synchronizations do
         not need such an unit and the unit may not exist.
 
         :rtype: :py:class:`odoo.addons.component.core.Component`
@@ -85,7 +85,7 @@ class Synchronizer(AbstractComponent):
         """Return an instance of ``BackendAdapter`` for the
         synchronization.
 
-        The instanciation is delayed because some synchronisations do
+        The instantiations is delayed because some synchronizations do
         not need such an unit and the unit may not exist.
 
         It looks for a Component with ``_usage`` being equal to
