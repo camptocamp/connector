@@ -113,6 +113,7 @@ class TestMapper(TransactionComponentRegistryCase):
             def name(self):
                 pass
 
+        # pylint: disable=R7980
         class FryMapperInherit(Component):
             _inherit = "fry.mapper"
 
@@ -342,6 +343,7 @@ class TestMapper(TransactionComponentRegistryCase):
         }
         self.assertEqual(map_record.values(for_create=True), expected)
 
+    # pylint: disable=W8110
     def test_finalize(self):
         """Inherit finalize to modify values"""
 
