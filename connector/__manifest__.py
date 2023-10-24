@@ -14,5 +14,10 @@
         "views/connector_menu.xml",
         "views/res_partner_views.xml",
     ],
+    "external_dependencies": {
+        "python": [
+            "sphinx_bootstrap_theme",
+        ],
+    },
     "installable": True,
 }
