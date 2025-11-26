@@ -113,7 +113,6 @@ class TestMapper(TransactionComponentRegistryCase):
             def name(self):
                 pass
 
-        # pylint: disable=R7980
         class FryMapperInherit(Component):
             _inherit = "fry.mapper"
 
@@ -679,7 +678,14 @@ class TestMapperRecordsets(TransactionComponentRegistryCase):
 
         self._build_components(MyMapper)
 
-        partner = self.env.ref("base.res_partner_address_4")
+        # Simplified mirror of self.env.ref('base.res_partner_2')
+        res_partner_2 = self.env["res.partner"].create({"name": "Deco Addict"})
+
+        # Simplified mirrof of self.env.ref('base.res_partner_address_4')
+        partner = self.env["res.partner"].create(
+            {"name": "Floyd Steward", "parent_id": res_partner_2.id}
+        )
+
         mapper = self.comp_registry["my.mapper"](self.work)
         map_record = mapper.map_record(partner)
         expected = {"parent_name": "Deco Addict"}
